@@ -1,5 +1,6 @@
 (ns org.example.basic.main
-  (:require [neko.activity :refer [defactivity]]
+  (:require [neko.activity :refer [defactivity
+                                   set-content-view!]]
             [neko.threading :refer [on-ui]]
   )
   (:import android.widget.TextView
@@ -11,10 +12,9 @@
   (onCreate [this bundle]
     (.superOnCreate this bundle)
     (on-ui
-      (.setContentView this
-        (doto (TextView. this)
-          (.setText "Hi there!")
-          (.setTextSize (float 64)))))
+      (set-content-view! this
+        [:text-view {:text "Hi there!"
+                     :text-size (float 64)}]))
   )
 
 )

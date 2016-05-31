@@ -2,6 +2,7 @@
   (:require [neko.activity :refer [defactivity
                                    set-content-view!]]
             [neko.debug :refer [*a]]
+            [neko.notify :refer [toast]]
             [neko.threading :refer [on-ui]]
   )
 )
@@ -16,8 +17,12 @@
          ]
       (on-ui
         (set-content-view! this
-          [:text-view {:text "Hi there!"
-                       :text-size (float 64)}]))
+          [:button {:on-click (fn [_]
+                                (toast "Hi there!" :long))
+                    :text "Press Me"
+                    :text-size (float 32)}
+          ]
+        ))
     ) ;
 
   )

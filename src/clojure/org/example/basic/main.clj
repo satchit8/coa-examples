@@ -2,10 +2,11 @@
   (:require [neko.activity :refer [defactivity
                                    set-content-view!]]
             [neko.debug :refer [*a]]
-            [neko.find-view :refer [find-view]]
+            [neko.intent :as intent]
             [neko.log :as log]
-            [neko.notify :refer [toast]]
             [neko.threading :refer [on-ui]]
+  )
+  (:import android.provider.Settings
   )
 )
 
@@ -17,25 +18,16 @@
     (.superOnCreate this bundle)
     (let [
           this (*a)
-          label-text-a "A Nice Label"
-          label-text-b "THE Nice Label"
          ]
       (on-ui
         (set-content-view! this
           [:linear-layout {:gravity :center
                            :layout-height :fill
-                           :layout-width :fill
-                           :orientation :vertical}
-           [:text-view {:id ::a-tv
-                        :text label-text-a
-                        :text-size (float 32)}]
+                           :layout-width :fill}
            [:button {:on-click (fn [_]
-                                 (when-let [a-tv (find-view this ::a-tv)]
-                                   (.setText a-tv
-                                     (if (= (.getText a-tv)
-                                           label-text-a)
-                                       label-text-b
-                                       label-text-a))))
+                                 (.startActivity this
+                                   (intent/intent Settings/ACTION_SETTINGS
+                                     {})))
                      :text "Press Me"
                      :text-size (float 32)}]
           ]

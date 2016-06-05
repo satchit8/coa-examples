@@ -2,12 +2,13 @@
   (:require [neko.activity :refer [defactivity
                                    set-content-view!]]
             [neko.debug :refer [*a]]
-            [neko.dialog.alert :refer [alert-dialog-builder]]
             [neko.log :as log]
-            [neko.notify :refer [toast]]
+            [neko.resource :refer [import-all]]
             [neko.threading :refer [on-ui]]
   )
 )
+
+(import-all)
 
 (defactivity org.example.basic.MainActivity
   :key :main
@@ -20,32 +21,10 @@
          ]
       (on-ui
         (set-content-view! this
-          [:linear-layout {:gravity :center
-                           :layout-height :fill
-                           :layout-width :fill}
-           [:button {:on-click
-                     (fn [_]
-                       (.showDialog this 0))
-                     :text "Press Me"
-                     :text-size (float 32)}]
-          ]
+          [:image-view {:image R$drawable/splash_circle}]
         ))
     ) ;
 
-  )
-
-  ;; XXX: but deprecated?
-  (onCreateDialog [this id _]
-    (-> (alert-dialog-builder this
-          {:cancelable true
-           :message "Decide?"
-           :negative-text "Cancel"
-           :negative-callback (fn [dialog res]
-                                (toast "No!" :short))
-           :positive-text "OK"
-           :positive-callback (fn [dialog res]
-                                (toast "Yes!" :short))})
-      .create)
   )
 
 )

@@ -19,40 +19,20 @@
          ]
       (on-ui
         (set-content-view! this
-          [:button {:on-click (fn [_]
-                                (log/d "toasting!")
-                                (toast "Hi there!" :long))
-                    :text "Press Me"
-                    :text-size (float 32)}
+          [:linear-layout {:gravity :center
+                           :layout-height :fill
+                           :layout-width :fill
+                           :orientation :vertical}
+           [:text-view {:text "A Nice Label"
+                        :text-size (float 32)}]
+           [:button {:on-click (fn [_]
+                                 (toast "Smile?" :long))
+                     :text "Press Me"
+                     :text-size (float 32)}]
           ]
         ))
     ) ;
 
-  )
-
-  (onResume [this]
-    (log/d "onResume")
-    (.superOnResume this)
-  )
-
-  (onPause [this]
-    (log/d "onPause")
-    (.superOnPause this)
-  )
-
-  (onStart [this]
-    (log/d "onStart")
-    (.superOnStart this)
-  )
-
-  (onStop [this]
-    (log/d "onStop")
-    (.superOnStop this)
-  )
-
-  (onDestroy [this]
-    (log/d "onDestroy")
-    (.superOnDestroy this)
   )
 
 )

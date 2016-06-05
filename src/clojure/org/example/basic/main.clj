@@ -2,13 +2,10 @@
   (:require [neko.activity :refer [defactivity
                                    set-content-view!]]
             [neko.debug :refer [*a]]
+            [neko.dialog.alert :refer [alert-dialog-builder]]
             [neko.log :as log]
-            [neko.notify :refer [cancel
-                                 fire
-                                 notification]]
+            [neko.notify :refer [toast]]
             [neko.threading :refer [on-ui]]
-  )
-  (:import android.provider.Settings
   )
 )
 
@@ -25,26 +22,30 @@
         (set-content-view! this
           [:linear-layout {:gravity :center
                            :layout-height :fill
-                           :layout-width :fill
-                           :orientation :vertical}
+                           :layout-width :fill}
            [:button {:on-click
                      (fn [_]
-                       (fire :open-settings
-                         (notification
-                           {:ticker-text "Tada!"
-                            :content-title "Awesome Title"
-                            :content-text "Some important text"
-                            :action [:activity Settings/ACTION_SETTINGS]})))
-                     :text "Notify"
-                     :text-size (float 32)}]
-           [:button {:on-click (fn [_]
-                                 (cancel :open-settings))
-                     :text "Cancel"
+                       (.showDialog this 0))
+                     :text "Press Me"
                      :text-size (float 32)}]
           ]
         ))
     ) ;
 
+  )
+
+  ;; XXX: but deprecated?
+  (onCreateDialog [this id _]
+    (-> (alert-dialog-builder this
+          {:cancelable true
+           :message "Decide?"
+           :negative-text "Cancel"
+           :negative-callback (fn [dialog res]
+                                (toast "No!" :short))
+           :positive-text "OK"
+           :positive-callback (fn [dialog res]
+                                (toast "Yes!" :short))})
+      .create)
   )
 
 )
